@@ -8,20 +8,13 @@ set -x
 # Required nodeJS version
 NODE_VERSION=16.17.0
 
-# workaround to override the v8 alias
-npm config delete prefix
-. ~/.bashrc
-nvm install "$NODE_VERSION"
-nvm alias node10 "$NODE_VERSION"
-
-# go to root of project
-cd ../..
-
-# install dependencies
+#!/usr/bin/env bash
+sudo npm cache clean -f
+sudo npm install -g n
+sudo n stable
+sudo npm install yarn -g
+sudo npm install -g ionic
+cd ../../
 npm i
-
-# run optimized production build
-npm run build --prod
-
-# copy the web assets to the native projects and updates the native plugins and dependencies based in package.json
+ionic build
 npx cap sync
